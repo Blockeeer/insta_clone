@@ -117,6 +117,7 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     if (!formData.username.trim()) return
 
     // Ensure number fields are numbers (convert empty string to 0)
@@ -186,9 +187,16 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
 
   if (!isOpen) return null
 
+  const handleOverlayClick = (e) => {
+    // Only close if clicking directly on the overlay, not on children
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()}>
+    <div className="modal-overlay" onClick={handleOverlayClick} onTouchEnd={handleOverlayClick}>
+      <div className="modal-container" onClick={e => e.stopPropagation()} onTouchEnd={e => e.stopPropagation()}>
         {/* Header */}
         <div className="modal-header">
           <h2>{isEditMode ? 'Edit Account' : 'Create Account'}</h2>
