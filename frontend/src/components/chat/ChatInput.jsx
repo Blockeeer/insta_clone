@@ -81,11 +81,12 @@ function ChatInput({ onSendMessage, onTyping }) {
     if (message.trim()) {
       onSendMessage(message.trim())
       setMessage('')
-
-      // Keep keyboard open after sending on mobile
-      if (inputRef.current) {
-        inputRef.current.focus()
-      }
+      // Delay keyboard dismiss by 1.5 seconds
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.blur()
+        }
+      }, 1500)
     }
   }
 
