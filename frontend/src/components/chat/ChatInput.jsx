@@ -4,19 +4,21 @@ import './ChatInput.css'
 // Camera icon with gradient circle (Instagram style)
 const CameraIcon = () => (
   <div className="camera-gradient-circle">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
       <circle cx="12" cy="13" r="4"/>
     </svg>
   </div>
 )
 
-// Search icon without gradient circle (plain icon when typing)
+// Search icon with transparent circle background (centered like camera)
 const SearchIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon-plain">
-    <circle cx="11" cy="11" r="8"/>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-  </svg>
+  <div className="search-icon-circle">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+  </div>
 )
 
 // Voice Clip icon (Instagram style)
@@ -62,9 +64,9 @@ const PlusCircleIcon = () => (
 const AIMagicPenIcon = () => (
   <svg aria-label="AI" height="24" role="img" viewBox="0 0 24 24" width="24" className="ai-magic-icon">
     {/* Pen body - closed box shape, filled white */}
-    <path d="M14 6L18 10L9 19L5 19L5 15L14 6Z" fill="#FFFFFF" stroke="#FFFFFF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/>
+    <path d="M14 6L18 10L9 19L5 19L5 15L14 6Z" fill="#FFFFFF" stroke="#FFFFFF" strokeLinecap="round" strokeLinejoin="round" strokeWidth=".1"/>
     {/* Eraser part - box with more rounded top corners, filled white, moved up-left for gap */}
-    <path d="M16 4L16.5 3.5Q17.5 2 18.5 3L20.5 5Q22 6 21 7L20.5 7.5L20 8Z" fill="#FFFFFF" stroke="#FFFFFF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7"/>
+    <path d="M16 4L16.5 3.5Q17.5 2 18.5 3L20.5 5Q22 6 21 7L20.5 7.5L20 8Z" fill="#FFFFFF" stroke="#FFFFFF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1"/>
     {/* Small 4-point star at bottom right */}
     <path d="M20 15l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1 1-2.5z" fill="#FFFFFF"/>
   </svg>

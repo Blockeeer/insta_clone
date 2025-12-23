@@ -43,15 +43,28 @@
 }
 
 .camera-gradient-circle svg {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
 }
 
-/* Plain search icon (no gradient background) */
-.search-icon-plain {
-  width: 24px;
-  height: 24px;
+/* Search icon with transparent circle (same size as camera for centering) */
+.search-icon-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: -1px;
+  margin-right: 0;
   color: var(--text-primary);
+}
+
+.search-icon-circle svg {
+  width: 20px;
+  height: 20px;
 }
 
 .input-wrapper {
@@ -151,7 +164,7 @@
 
 /* Send icon - rounded pill shape */
 .send-icon-circle {
-  width: 40px;
+  width: 50px;
   height: 32px;
   border-radius: 20px;
   background: linear-gradient(135deg, #0095F6, #0077E6);
@@ -180,8 +193,18 @@
   }
 
   .camera-gradient-circle svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .search-icon-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .search-icon-circle svg {
+    width: 20px;
+    height: 20px;
   }
 
   .message-input {
@@ -199,7 +222,7 @@
   }
 
   .send-icon-circle {
-    width: 30px;
+    width: 44px;
     height: 30px;
   }
 
