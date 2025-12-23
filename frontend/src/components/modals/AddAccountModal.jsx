@@ -190,13 +190,14 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
   const handleOverlayClick = (e) => {
     // Only close if clicking directly on the overlay, not on children
     if (e.target === e.currentTarget) {
+      e.preventDefault()
       onClose()
     }
   }
 
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick} onTouchEnd={handleOverlayClick}>
-      <div className="modal-container" onClick={e => e.stopPropagation()} onTouchEnd={e => e.stopPropagation()}>
+    <div className="modal-overlay" onClick={handleOverlayClick}>
+      <div className="modal-container" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="modal-header">
           <h2>{isEditMode ? 'Edit Account' : 'Create Account'}</h2>
@@ -329,6 +330,12 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
             type="submit"
             className="submit-btn"
             disabled={!formData.username.trim()}
+            onClick={(e) => {
+              // Backup click handler for mobile
+              if (formData.username.trim()) {
+                handleSubmit(e)
+              }
+            }}
           >
             {isEditMode ? 'Save Changes' : 'Create Account'}
           </button>
