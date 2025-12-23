@@ -1,0 +1,170 @@
+.chat-input-container {
+  padding: 6px 10px;
+  background-color: var(--background);
+}
+
+.chat-input-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  border: 1px solid rgb(54, 54, 54);
+  border-radius: 22px;
+  padding: 0;
+}
+
+/* Camera button on the left */
+.input-camera-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+.input-camera-btn:hover {
+  opacity: 0.8;
+}
+
+/* Camera gradient circle - Instagram style blue gradient */
+.camera-gradient-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0095F6, #0077E6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: -1px;
+  margin-right: 0;
+}
+
+.camera-gradient-circle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.input-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.message-input {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 8px 4px;
+  outline: none;
+}
+
+.message-input::placeholder {
+  color: rgb(168, 168, 168);
+}
+
+.input-action-btn {
+  color: var(--text-primary);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.input-action-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.input-action-btn:hover {
+  opacity: 0.7;
+}
+
+.input-action-btn:active {
+  transform: scale(0.95);
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.send-btn {
+  padding: 0;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.send-btn:hover {
+  opacity: 0.8;
+}
+
+.send-btn:active {
+  transform: scale(0.95);
+}
+
+/* Send icon circle - matches camera gradient */
+.send-icon-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0095F6, #0077E6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: -1px;
+  margin-left: 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .chat-input-container {
+    padding: 6px 8px;
+  }
+
+  .chat-input-form {
+    gap: 4px;
+  }
+
+  .camera-gradient-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .camera-gradient-circle svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .message-input {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 6px 4px;
+  }
+
+  .input-action-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .input-actions {
+    gap: 2px;
+  }
+
+  .send-icon-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .send-icon-circle svg {
+    width: 16px;
+    height: 16px;
+  }
+}

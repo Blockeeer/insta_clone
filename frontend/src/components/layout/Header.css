@@ -1,0 +1,224 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.header-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+}
+
+/* Header Buttons */
+.header-btn {
+  color: var(--text-primary);
+  padding: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.header-btn:hover {
+  opacity: 0.7;
+}
+
+/* Heart with notification dot */
+.header-heart-btn {
+  position: relative;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: #ff3040;
+  border-radius: 50%;
+}
+
+/* Logo Container with Dropdown */
+.header-logo-container {
+  position: relative;
+}
+
+.header-logo-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--spacing-xs);
+  color: var(--text-primary);
+}
+
+.header-logo-img {
+  height: 30px;
+  width: auto;
+}
+
+.header-logo-svg {
+  color: var(--text-primary);
+}
+
+.header-chevron {
+  transition: transform 0.2s ease;
+  margin-top: 4px;
+}
+
+.header-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.header-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 240px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease;
+  z-index: 200;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Account List */
+.dropdown-accounts {
+  padding: var(--spacing-sm) 0;
+  max-height: 360px; /* Show ~6 accounts then scroll */
+  overflow-y: auto;
+}
+
+.dropdown-account-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.dropdown-account-item:hover {
+  background-color: var(--background-tertiary);
+}
+
+.dropdown-account-item.active {
+  background-color: var(--background-secondary);
+}
+
+.account-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--background-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.account-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.account-username {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.verified-badge {
+  color: #3897f0;
+  flex-shrink: 0;
+}
+
+.account-name {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-active-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Divider */
+.dropdown-divider {
+  height: 1px;
+  background-color: var(--border);
+  margin: var(--spacing-xs) 0;
+}
+
+/* Actions */
+.dropdown-actions {
+  padding: var(--spacing-sm) 0;
+}
+
+.dropdown-action-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  transition: background-color 0.2s;
+}
+
+.dropdown-action-item:hover {
+  background-color: var(--background-tertiary);
+}
+
+.action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+}

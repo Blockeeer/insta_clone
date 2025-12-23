@@ -1,0 +1,80 @@
+.story-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  width: 72px;
+}
+
+.story-avatar-wrapper {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--background-tertiary);
+}
+
+.story-avatar-wrapper.has-story {
+  background: linear-gradient(135deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+}
+
+.story-avatar-wrapper.own-story {
+  background: var(--background-tertiary);
+}
+
+/* When own story is being added/active - show gradient ring */
+.story-avatar-wrapper.own-story.adding-story {
+  background: linear-gradient(135deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+}
+
+.story-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--background);
+  border: 3px solid var(--background);
+}
+
+.story-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-tertiary);
+  color: var(--text-secondary);
+}
+
+.story-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  background-color: var(--primary);
+  border: 3px solid var(--background);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.story-username {
+  font-size: 11px;
+  color: var(--text-primary);
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}

@@ -1,0 +1,99 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-nav-height);
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 100;
+  padding: 0 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  padding: 12px;
+  transition: opacity 0.2s;
+}
+
+.nav-item:hover {
+  opacity: 0.7;
+}
+
+.nav-item.active {
+  color: var(--text-primary);
+}
+
+/* Stack-like container for icon + badge (similar to Flutter Stack) */
+.nav-icon-stack {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Red dot - positioned like Flutter's Positioned widget */
+.nav-send-dot {
+  position: absolute;
+  bottom: 0;
+  right: -2px;
+  width: 5px;
+  height: 5px;
+  background-color: #ff3040;
+  border-radius: 50%;
+}
+
+/* Profile button wrapper (Stack-like) */
+.nav-profile-btn {
+  position: relative;
+}
+
+.nav-profile-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Profile circle */
+.nav-profile-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  overflow: hidden;
+  background-color: var(--background-tertiary);
+}
+
+.nav-item.active .nav-profile-circle {
+  border: 2px solid var(--text-primary);
+}
+
+.nav-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Profile red dot - positioned at top-right */
+.nav-profile-dot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  background-color: #ff3040;
+  border-radius: 50%;
+  border: 2px solid var(--background);
+}
