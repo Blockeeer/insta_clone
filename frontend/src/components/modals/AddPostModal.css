@@ -1,0 +1,210 @@
+/* Add Post Modal specific styles */
+.add-post-modal-overlay {
+  z-index: 1001;
+}
+
+.add-post-modal {
+  max-width: 440px;
+}
+
+/* Account Selector */
+.account-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.account-selector:hover {
+  border-color: var(--text-secondary);
+}
+
+.selected-account {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.account-avatar-small {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--background-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.account-avatar-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-username {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.no-account {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.dropdown-chevron {
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+}
+
+.dropdown-chevron.open {
+  transform: rotate(180deg);
+}
+
+/* Account Dropdown */
+.account-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: var(--spacing-xs);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.account-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.account-option:hover {
+  background-color: var(--background-secondary);
+}
+
+.account-option.selected {
+  background-color: var(--background-tertiary);
+}
+
+.account-option span {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.no-accounts-message {
+  padding: var(--spacing-md);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* Make form-group relative for dropdown positioning */
+.add-post-modal .form-group {
+  position: relative;
+}
+
+/* Image Upload */
+.image-upload {
+  display: block;
+  cursor: pointer;
+}
+
+.image-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 250px;
+  background-color: var(--background-secondary);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.image-placeholder:hover {
+  border-color: var(--primary);
+  background-color: var(--background-tertiary);
+}
+
+/* Search icon state when input is detected */
+.image-placeholder.has-input {
+  border-style: solid;
+  border-color: var(--primary);
+  background-color: var(--background-tertiary);
+}
+
+.image-placeholder span {
+  font-size: var(--font-size-sm);
+}
+
+.image-hint {
+  font-size: var(--font-size-xs) !important;
+  color: var(--text-muted) !important;
+}
+
+.image-preview-container {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.image-preview-container:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-overlay span {
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.stats-row .form-group input {
+  text-align: center;
+}

@@ -159,11 +159,25 @@ const addMessageRequest = (fromUserId, toUserId, message) => {
       toUserId,
       message,
       createdAt: new Date().toISOString(),
-      status: 'pending' // pending, accepted, blocked, deleted
+      status: 'pending', // pending, accepted, blocked, deleted
+      isRead: false // track if request has been viewed
     })
     saveMessageRequests(requests)
   }
   return requests
+}
+
+// Mark a message request as read
+const markRequestAsRead = (requestId) => {
+  const requests = getMessageRequests()
+  const updatedRequests = requests.map(r => {
+    if (r.id === requestId) {
+      return { ...r, isRead: true }
+    }
+    return r
+  })
+  saveMessageRequests(updatedRequests)
+  return updatedRequests
 }
 
 // Accept a message request
@@ -422,7 +436,8 @@ const seedSampleRequestUsers = () => {
         toUserId: activeAccount.id,
         message: sampleMessages[index],
         createdAt: new Date(Date.now() - (index * 60 * 60 * 1000)).toISOString(), // stagger times
-        status: 'pending'
+        status: 'pending',
+        isRead: false
       })
     }
   })
@@ -953,8 +968,13 @@ function Messages() {
                 return (
                   <button
                     key={request.id}
-                    className="request-item"
+                    className={`request-item ${!request.isRead ? 'unread' : ''}`}
                     onClick={() => {
+                      // Mark as read when clicking
+                      if (!request.isRead) {
+                        const updatedRequests = markRequestAsRead(request.id)
+                        setMessageRequests(updatedRequests.filter(r => r.toUserId === currentUser?.id && r.status === 'pending'))
+                      }
                       setSelectedRequest(request)
                       setShowRequestsView(true)
                     }}
@@ -967,10 +987,13 @@ function Messages() {
                       )}
                     </div>
                     <div className="request-info">
-                      <span className="request-name">{account.username}</span>
-                      <span className="request-preview">{request.message}</span>
+                      <span className={`request-name ${!request.isRead ? 'unread' : ''}`}>{account.username}</span>
+                      <span className="request-preview">
+                        {request.message}
+                        <span className="request-time-inline"> · {formatTime(request.createdAt)}</span>
+                      </span>
                     </div>
-                    <span className="request-time-small">{formatTime(request.createdAt)}</span>
+                    {!request.isRead && <div className="request-unread-dot"></div>}
                   </button>
                 )
               })

@@ -47,7 +47,7 @@
 .chat-page .chat-input-container {
   padding-top: 4px; /* <-- ADJUST: space above input field (reduced from 4px) */
   padding-bottom: 6px; /* <-- ADJUST: space below input field */
-  
+
 }
 
 /* Last message bubble - remove extra margin */

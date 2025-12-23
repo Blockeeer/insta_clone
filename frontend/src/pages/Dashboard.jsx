@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import Stories from '../components/feed/Stories'
 import PostList from '../components/feed/PostList'
 import UserSelectionModal from '../components/feed/UserSelectionModal'
+import AddPostModal from '../components/modals/AddPostModal'
 import './Dashboard.css'
 
 // Get active account from localStorage
@@ -51,6 +52,20 @@ const getAccountIdsWithStories = () => {
   // Filter out expired stories
   const activeStories = stories.filter(s => new Date(s.expiresAt) > now)
   return activeStories.map(s => s.accountId)
+}
+
+// Get posts from localStorage
+const getSavedPosts = () => {
+  const saved = localStorage.getItem('insta_posts')
+  if (saved) {
+    return JSON.parse(saved)
+  }
+  return []
+}
+
+// Save posts to localStorage
+const savePosts = (posts) => {
+  localStorage.setItem('insta_posts', JSON.stringify(posts))
 }
 
 const mockPosts = [
@@ -119,8 +134,12 @@ const mockPosts = [
 function Dashboard() {
   const location = useLocation()
   const [currentUser, setCurrentUser] = useState(getActiveAccount())
-  const [posts, setPosts] = useState(mockPosts)
+  const [posts, setPosts] = useState(() => {
+    const savedPosts = getSavedPosts()
+    return savedPosts.length > 0 ? savedPosts : mockPosts
+  })
   const [showUserSelection, setShowUserSelection] = useState(false)
+  const [showAddPostModal, setShowAddPostModal] = useState(false)
   const [storyAccountIds, setStoryAccountIds] = useState(getAccountIdsWithStories())
 
   // Get all accounts from localStorage
@@ -159,6 +178,19 @@ function Dashboard() {
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
+
+  // Listen for add post modal event from header
+  useEffect(() => {
+    const handleOpenAddPostModal = () => {
+      setShowAddPostModal(true)
+    }
+
+    window.addEventListener('openAddPostModal', handleOpenAddPostModal)
+
+    return () => {
+      window.removeEventListener('openAddPostModal', handleOpenAddPostModal)
     }
   }, [])
 
@@ -206,7 +238,7 @@ function Dashboard() {
   const selectedUsersForModal = allAccounts.filter(acc => storyAccountIds.includes(acc.id))
 
   const handleLike = (postId) => {
-    setPosts(posts.map(post => {
+    const updatedPosts = posts.map(post => {
       if (post.id === postId) {
         return {
           ...post,
@@ -215,7 +247,15 @@ function Dashboard() {
         }
       }
       return post
-    }))
+    })
+    setPosts(updatedPosts)
+    savePosts(updatedPosts)
+  }
+
+  const handleAddPost = (newPost) => {
+    const updatedPosts = [newPost, ...posts]
+    setPosts(updatedPosts)
+    savePosts(updatedPosts)
   }
 
   return (
@@ -230,6 +270,14 @@ function Dashboard() {
           currentUserId={currentUser.id}
           onClose={() => setShowUserSelection(false)}
           onConfirm={handleUserSelectionConfirm}
+        />
+      )}
+
+      {showAddPostModal && (
+        <AddPostModal
+          isOpen={showAddPostModal}
+          onClose={() => setShowAddPostModal(false)}
+          onAddPost={handleAddPost}
         />
       )}
     </div>

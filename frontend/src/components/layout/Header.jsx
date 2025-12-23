@@ -84,7 +84,10 @@ function Header() {
       <header className="header">
         <div className="header-content">
           {/* Left - Add Post */}
-          <button className="header-btn">
+          <button
+            className="header-btn"
+            onClick={() => window.dispatchEvent(new Event('openAddPostModal'))}
+          >
             <Plus size={28} strokeWidth={2} />
           </button>
 
