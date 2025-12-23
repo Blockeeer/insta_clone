@@ -2,11 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  height: 100dvh; /* Dynamic viewport height - adjusts for mobile keyboard */
-  max-height: 100vh;
-  max-height: 100dvh;
+  height: 100dvh; /* Dynamic viewport height - fits mobile screen */
   background-color: var(--background);
-  overflow: hidden; /* Prevent page from scrolling */
+  overflow: hidden;
 }
 
 /* Empty state for chat */
@@ -49,12 +47,9 @@
 }
 
 .chat-page .chat-input-container {
-  padding-top: 4px; /* <-- ADJUST: space above input field (reduced from 4px) */
-  padding-bottom: 6px; /* <-- ADJUST: space below input field */
-  flex-shrink: 0; /* Prevent input from shrinking */
-  position: sticky;
-  bottom: 0;
-  background-color: var(--background);
+  padding-top: 4px; /* <-- ADJUST: space above input field */
+  padding-bottom: 0; /* Remove extra space below */
+  flex-shrink: 0;
 }
 
 /* Last message bubble - remove extra margin */
@@ -69,7 +64,6 @@
 /* Mobile responsiveness for chat page */
 @media (max-width: 480px) {
   .chat-page {
-    height: 100vh;
     height: 100dvh;
     height: -webkit-fill-available; /* iOS Safari fallback */
   }
@@ -78,12 +72,10 @@
     padding-bottom: 0px;
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
   }
 
   .chat-page .chat-input-container {
     padding-top: 2px;
-    padding-bottom: 4px;
-    padding-bottom: env(safe-area-inset-bottom, 4px); /* iOS safe area */
+    padding-bottom: 0;
   }
 }

@@ -93,28 +93,28 @@
 /* Mobile responsiveness */
 @media (max-width: 480px) {
   .message-bubble-wrapper {
-    gap: var(--spacing-xs);
+    gap: var(--spacing-sm);
   }
 
   .message-avatar-space {
-    width: 24px;
+    width: 28px;
   }
 
   .message-avatar {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
 
   .message-bubble {
     max-width: 80%;
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: 10px 14px; /* Bigger padding for larger bubbles */
   }
 
   .message-content {
-    font-size: 14px;
+    font-size: 15px; /* Larger font size */
   }
 
   .message-avatar span {
-    font-size: 10px;
+    font-size: 11px;
   }
 }

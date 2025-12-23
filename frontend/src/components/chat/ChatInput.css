@@ -1,6 +1,6 @@
 .chat-input-container {
   padding: 6px 10px;
-  padding-bottom: 6px;
+  padding-bottom: 8px;
   background-color: var(--background);
 }
 
@@ -180,7 +180,7 @@
 @media (max-width: 480px) {
   .chat-input-container {
     padding: 6px 8px;
-    padding-bottom: 6px;
+    padding-bottom: 10px;
   }
 
   .chat-input-form {

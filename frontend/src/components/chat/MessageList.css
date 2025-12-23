@@ -5,9 +5,8 @@
   padding-right: 10px; /* Match chat input right padding for alignment */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Start from top, scroll down for more messages */
+  justify-content: flex-end;
   min-height: 0;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Profile Info */
