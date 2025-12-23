@@ -50,10 +50,20 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
 
   const handleNumberChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: parseInt(value) || 0
-    }))
+    // Allow empty string for better mobile UX, store as empty or number
+    if (value === '') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: ''
+      }))
+    } else {
+      // Remove leading zeros and parse
+      const cleanValue = value.replace(/^0+/, '') || '0'
+      setFormData(prev => ({
+        ...prev,
+        [name]: parseInt(cleanValue) || 0
+      }))
+    }
   }
 
   const handleAvatarChange = (e) => {
@@ -109,6 +119,14 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
     e.preventDefault()
     if (!formData.username.trim()) return
 
+    // Ensure number fields are numbers (convert empty string to 0)
+    const cleanedFormData = {
+      ...formData,
+      postsCount: parseInt(formData.postsCount) || 0,
+      followersCount: parseInt(formData.followersCount) || 0,
+      followingCount: parseInt(formData.followingCount) || 0
+    }
+
     try {
       const saved = localStorage.getItem('insta_accounts')
       const accounts = saved ? JSON.parse(saved) : []
@@ -119,9 +137,9 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
           if (acc.id === editAccount.id) {
             return {
               ...acc,
-              ...formData,
-              username: formData.username.trim(),
-              fullName: formData.fullName.trim() || formData.username.trim()
+              ...cleanedFormData,
+              username: cleanedFormData.username.trim(),
+              fullName: cleanedFormData.fullName.trim() || cleanedFormData.username.trim()
             }
           }
           return acc
@@ -136,9 +154,9 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
         // Create new account
         const newAccount = {
           id: Date.now().toString(),
-          ...formData,
-          username: formData.username.trim(),
-          fullName: formData.fullName.trim() || formData.username.trim(),
+          ...cleanedFormData,
+          username: cleanedFormData.username.trim(),
+          fullName: cleanedFormData.fullName.trim() || cleanedFormData.username.trim(),
           isActive: false
         }
 
@@ -246,34 +264,40 @@ function AddAccountModal({ isOpen, onClose, onAddAccount, editAccount, onEditAcc
             <div className="form-group">
               <label htmlFor="postsCount">Posts</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 id="postsCount"
                 name="postsCount"
-                value={formData.postsCount}
+                value={formData.postsCount === 0 ? '' : formData.postsCount}
                 onChange={handleNumberChange}
-                min="0"
+                placeholder="0"
               />
             </div>
             <div className="form-group">
               <label htmlFor="followersCount">Followers</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 id="followersCount"
                 name="followersCount"
-                value={formData.followersCount}
+                value={formData.followersCount === 0 ? '' : formData.followersCount}
                 onChange={handleNumberChange}
-                min="0"
+                placeholder="0"
               />
             </div>
             <div className="form-group">
               <label htmlFor="followingCount">Following</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 id="followingCount"
                 name="followingCount"
-                value={formData.followingCount}
+                value={formData.followingCount === 0 ? '' : formData.followingCount}
                 onChange={handleNumberChange}
-                min="0"
+                placeholder="0"
               />
             </div>
           </div>
