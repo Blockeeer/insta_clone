@@ -196,34 +196,35 @@
   }
 
   .chat-profile-info {
-    padding: var(--spacing-md) 0;
+    padding: var(--spacing-lg) 0;
   }
 
   .chat-profile-avatar {
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
   }
 
   .chat-profile-avatar .avatar-placeholder {
-    font-size: 30px;
+    font-size: 36px;
   }
 
   .chat-profile-name {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .chat-profile-username,
   .chat-profile-stats-line {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .chat-profile-follow-info {
-    font-size: 11px;
+    font-size: 13px;
+    margin-bottom: var(--spacing-lg);
   }
 
   .view-profile-btn {
-    font-size: 13px;
-    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 15px;
+    padding: var(--spacing-sm) var(--spacing-lg);
   }
 
   .date-divider span {
