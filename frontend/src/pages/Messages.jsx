@@ -664,8 +664,13 @@ function Messages() {
       setShowWarningBehindModal(true) // Mark that warning should be visible
 
       setTimeout(() => {
+        // Start warning exit animation
         setWarningExiting(true)
-        setChatInputEntering(true)
+
+        // Chat input appears at 50% of warning animation (0.2s into 0.4s animation)
+        setTimeout(() => {
+          setChatInputEntering(true)
+        }, 200) // Start chat input at 50% of warning animation
 
         // Step 3: After animations complete, set final state
         setTimeout(() => {
@@ -673,7 +678,7 @@ function Messages() {
           setWarningExiting(false)
           setChatInputEntering(false)
           setIsRequestAccepted(true)
-        }, 400) // Animation duration
+        }, 600) // Wait for both animations to complete (0.4s warning + 0.4s chat input overlap)
       }, 500) // Warning visible for 0.5s
     }, 300) // Modal close animation duration
   }
