@@ -25,7 +25,8 @@
 }
 
 /* Request detail slide animation */
-.request-detail-overlay .messages-page.request-detail-slide {
+.request-detail-overlay .messages-page.request-detail-slide,
+.request-detail-overlay .chat-page.request-detail-slide {
   position: absolute;
   top: 0;
   left: 0;

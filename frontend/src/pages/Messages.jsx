@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronDown, ChevronRight, User, X, Check } from 'lucide-react'
 import NoteBubble from '../components/feed/NoteBubble'
 import ChatInput from '../components/chat/ChatInput'
+import MessageList from '../components/chat/MessageList'
+import ChatHeader from '../components/chat/ChatHeader'
 import './Messages.css'
+import '../pages/Chat.css'
 
 // Camera icon SVG (white color)
 const CameraIcon = () => (
@@ -464,6 +467,8 @@ function Messages() {
   const [acceptedRequestUser, setAcceptedRequestUser] = useState(null)
   const [activeTab, setActiveTab] = useState(getActiveMessageTab())
   const [isRequestAccepted, setIsRequestAccepted] = useState(false)
+  const [acceptedChatMessages, setAcceptedChatMessages] = useState([]) // Messages for accepted request chat
+  const messagesEndRef = useRef(null)
   // Animation states
   const [warningAnimating, setWarningAnimating] = useState(false) // warning sliding down
   const [modalAnimating, setModalAnimating] = useState(false) // modal sliding up
@@ -665,6 +670,20 @@ function Messages() {
       const updatedRequests = acceptMessageRequest(selectedRequest.id)
       setMessageRequests(updatedRequests.filter(r => r.toUserId === currentUser?.id && r.status === 'pending'))
       refreshData()
+
+      // Load the initial message from the request as the first message in chat
+      const requestAccount = getAccountById(selectedRequest.fromUserId)
+      if (requestAccount) {
+        const initialMessage = {
+          id: `m_req_${selectedRequest.id}`,
+          content: selectedRequest.message,
+          senderId: selectedRequest.fromUserId,
+          receiverId: currentUser?.id,
+          createdAt: selectedRequest.createdAt,
+          isRead: true
+        }
+        setAcceptedChatMessages([initialMessage])
+      }
     }
 
     // Step 1: Animate modal closing (slide down + fade)
@@ -716,20 +735,27 @@ function Messages() {
   const handleSendAcceptedMessage = (messageText) => {
     if (!messageText || !currentUser || !requestAccount) return
 
-    // Save the message
-    const messages = JSON.parse(localStorage.getItem('insta_messages') || '[]')
-    messages.push({
+    const newMessage = {
       id: `msg_${Date.now()}`,
       senderId: currentUser.id,
       receiverId: requestAccount.id,
       content: messageText,
       createdAt: new Date().toISOString(),
       isRead: false
-    })
+    }
+
+    // Save the message to localStorage
+    const messages = JSON.parse(localStorage.getItem('insta_messages') || '[]')
+    messages.push(newMessage)
     localStorage.setItem('insta_messages', JSON.stringify(messages))
 
-    // Navigate to full chat
-    navigate(`/chat/${requestAccount.id}`)
+    // Add to local state to show in the chat
+    setAcceptedChatMessages(prev => [...prev, newMessage])
+
+    // Scroll to bottom after message is added
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
   }
 
   // Handle back button in request detail - reset accepted state
@@ -739,6 +765,7 @@ function Messages() {
     setIsRequestAccepted(false)
     setAcceptedRequestUser(null)
     setShowMoveMessageModal(false)
+    setAcceptedChatMessages([]) // Reset messages
     // Reset all animation states
     setWarningAnimating(false)
     setModalAnimating(false)
@@ -1243,111 +1270,125 @@ function Messages() {
       {/* Request Detail Overlay - slides in from right when a request is selected */}
       {showRequestsView && selectedRequest && requestAccount && (
         <div className="request-detail-overlay">
-          <div className="messages-page request-detail-slide">
-            {/* Header with iOS back button - compact style with avatar */}
-            <div className="messages-header request-detail-header">
-              <div className="request-header-left">
-                <button className="back-btn-ios" onClick={handleRequestDetailBack}>
-                  <IosBackIcon />
+          {/* Show full chat page when accepted, otherwise show request detail */}
+          {isRequestAccepted ? (
+            <div className="chat-page request-detail-slide">
+              <ChatHeader
+                user={requestAccount}
+                onBack={handleRequestDetailBack}
+                isAccepted={true}
+              />
+
+              <MessageList
+                messages={acceptedChatMessages}
+                currentUserId={currentUser?.id}
+                otherUser={requestAccount}
+              />
+
+              <div ref={messagesEndRef} />
+
+              <ChatInput
+                onSendMessage={handleSendAcceptedMessage}
+              />
+            </div>
+          ) : (
+            <div className="messages-page request-detail-slide">
+              {/* Header with iOS back button - compact style with avatar */}
+              <div className="messages-header request-detail-header">
+                <div className="request-header-left">
+                  <button className="back-btn-ios" onClick={handleRequestDetailBack}>
+                    <IosBackIcon />
+                  </button>
+
+                  <div className="request-header-user-info">
+                    <div className="request-header-avatar">
+                      {requestAccount.avatar ? (
+                        <img src={requestAccount.avatar} alt={requestAccount.username} />
+                      ) : (
+                        <User size={16} />
+                      )}
+                    </div>
+                    <span className="request-header-username">
+                      {requestAccount.username}
+                      {requestAccount.isVerified && <VerifiedBadge />}
+                    </span>
+                    <ChevronRight size={16} className="request-header-chevron" />
+                  </div>
+                </div>
+                {/* Always show flag icon */}
+                <button className="request-header-flag-btn">
+                  <FlagIcon />
                 </button>
+              </div>
 
-                <div className="request-header-user-info">
-                  <div className="request-header-avatar">
+              <div className="request-detail-view">
+                <div className="request-profile-section">
+                  <div className="request-avatar-large">
                     {requestAccount.avatar ? (
                       <img src={requestAccount.avatar} alt={requestAccount.username} />
                     ) : (
-                      <User size={16} />
+                      <User size={64} />
                     )}
                   </div>
-                  <span className="request-header-username">
-                    {requestAccount.username}
+                  <h2 className="request-fullname">
+                    {requestAccount.fullName || requestAccount.username}
                     {requestAccount.isVerified && <VerifiedBadge />}
-                  </span>
-                  <ChevronRight size={16} className="request-header-chevron" />
+                  </h2>
+                  <p className="request-username">
+                    {requestAccount.username}
+                  </p>
+                  <p className="request-stats">
+                    {formatCount(requestAccount.followersCount)} followers · {formatCount(requestAccount.postsCount)} posts
+                  </p>
+                  <p className="request-follow-info">
+                    You've followed this Instagram account since 2025
+                  </p>
+                  <button className="view-profile-btn">View profile</button>
                 </div>
-              </div>
-              {/* Always show flag icon */}
-              <button className="request-header-flag-btn">
-                <FlagIcon />
-              </button>
-            </div>
 
-            <div className="request-detail-view">
-              <div className="request-profile-section">
-                <div className="request-avatar-large">
-                  {requestAccount.avatar ? (
-                    <img src={requestAccount.avatar} alt={requestAccount.username} />
-                  ) : (
-                    <User size={64} />
-                  )}
-                </div>
-                <h2 className="request-fullname">
-                  {requestAccount.fullName || requestAccount.username}
-                  {requestAccount.isVerified && <VerifiedBadge />}
-                </h2>
-                <p className="request-username">
-                  {requestAccount.username}
-                </p>
-                <p className="request-stats">
-                  {formatCount(requestAccount.followersCount)} followers · {formatCount(requestAccount.postsCount)} posts
-                </p>
-                <p className="request-follow-info">
-                  You've followed this Instagram account since 2025
-                </p>
-                <button className="view-profile-btn">View profile</button>
-              </div>
-
-              <div className="request-message-section">
-                <p className="request-time">
-                  {formatRequestTime(selectedRequest.createdAt)}
-                </p>
-                <div className="request-message-bubble">
-                  <div className="request-message-avatar">
-                    {requestAccount.avatar ? (
-                      <img src={requestAccount.avatar} alt={requestAccount.username} />
-                    ) : (
-                      <User size={16} />
-                    )}
+                <div className="request-message-section">
+                  <p className="request-time">
+                    {formatRequestTime(selectedRequest.createdAt)}
+                  </p>
+                  <div className="request-message-bubble">
+                    <div className="request-message-avatar">
+                      {requestAccount.avatar ? (
+                        <img src={requestAccount.avatar} alt={requestAccount.username} />
+                      ) : (
+                        <User size={16} />
+                      )}
+                    </div>
+                    <span className="request-message-text">{selectedRequest.message}</span>
                   </div>
-                  <span className="request-message-text">{selectedRequest.message}</span>
                 </div>
-              </div>
 
-              {/* Show warning and actions when pending, chat input when accepted */}
-              {!isRequestAccepted ? (
-                <>
-                  {/* Warning and actions container - animates together */}
-                  <div className={`request-warning-container ${warningAnimating ? 'slide-down' : ''} ${showWarningBehindModal ? 'behind-modal' : ''} ${warningExiting ? 'exit-down' : ''}`}>
-                    <div className="request-warning">
-                      <p>Accept message request from {requestAccount.fullName || requestAccount.username} ({requestAccount.username})?</p>
-                      <p className="request-warning-text">
-                        If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.
-                      </p>
-                    </div>
-
-                    <div className="request-actions">
-                      <button className="request-action-btn block" onClick={handleBlockRequest}>Block</button>
-                      <button className="request-action-btn delete" onClick={handleDeleteRequest}>Delete</button>
-                      <button className="request-action-btn accept" onClick={handleAcceptRequest}>Accept</button>
-                    </div>
+                {/* Show warning and actions when pending */}
+                <div className={`request-warning-container ${warningAnimating ? 'slide-down' : ''} ${showWarningBehindModal ? 'behind-modal' : ''} ${warningExiting ? 'exit-down' : ''}`}>
+                  <div className="request-warning">
+                    <p>Accept message request from {requestAccount.fullName || requestAccount.username} ({requestAccount.username})?</p>
+                    <p className="request-warning-text">
+                      If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.
+                    </p>
                   </div>
 
-                  {/* Chat input behind warning - ready to slide in */}
-                  {chatInputEntering && (
-                    <div className="chat-input-entering">
-                      <ChatInput
-                        onSendMessage={handleSendAcceptedMessage}
-                      />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <ChatInput
-                  onSendMessage={handleSendAcceptedMessage}
-                />
-              )}
+                  <div className="request-actions">
+                    <button className="request-action-btn block" onClick={handleBlockRequest}>Block</button>
+                    <button className="request-action-btn delete" onClick={handleDeleteRequest}>Delete</button>
+                    <button className="request-action-btn accept" onClick={handleAcceptRequest}>Accept</button>
+                  </div>
+                </div>
+
+                {/* Chat input behind warning - ready to slide in */}
+                {chatInputEntering && (
+                  <div className="chat-input-entering">
+                    <ChatInput
+                      onSendMessage={handleSendAcceptedMessage}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
