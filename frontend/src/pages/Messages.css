@@ -1384,6 +1384,7 @@
   align-items: center;
   color: #0095F6;
   padding: 4px;
+  margin-left: -8px;
   transition: opacity 0.2s;
 }
 
@@ -1515,12 +1516,14 @@
 /* Request Detail Header - compact style with avatar */
 .request-detail-header {
   justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: var(--header-height);
 }
 
 .request-header-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .request-header-user-info {
