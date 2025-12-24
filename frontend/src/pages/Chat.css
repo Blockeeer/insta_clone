@@ -1,10 +1,10 @@
 .chat-page {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  height: 100dvh; /* Dynamic viewport height - fits mobile screen */
-  height: calc(100vh - env(safe-area-inset-bottom, 0px)); /* Account for safe area */
-  max-height: -webkit-fill-available;
+  height: 100svh; /* Small viewport height - stable with keyboard */
+  height: 100vh; /* Fallback */
+  max-height: 100svh;
+  max-height: 100vh;
   background-color: var(--background);
   overflow: hidden;
   position: fixed;
@@ -71,13 +71,15 @@
 /* Mobile responsiveness for chat page */
 @media (max-width: 480px) {
   .chat-page {
+    height: 100svh;
+    height: 100vh;
+    max-height: 100svh;
+    max-height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 100%;
-    height: 100dvh;
   }
 
   .chat-page .message-list {
@@ -85,11 +87,14 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .chat-page .chat-input-container {
     padding-top: 4px;
     padding-bottom: 8px;
     flex-shrink: 0;
+    position: relative;
+    z-index: 10;
   }
 }

@@ -69,6 +69,32 @@ function Chat() {
   const [isAccepted, setIsAccepted] = useState(true)
 
   const messagesEndRef = useRef(null)
+  const chatPageRef = useRef(null)
+
+  // Handle virtual keyboard - prevent layout shifts that trigger address bar
+  useEffect(() => {
+    if (!window.visualViewport) return
+
+    const handleResize = () => {
+      // Prevent any scroll that might trigger address bar
+      window.scrollTo(0, 0)
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+    }
+
+    const handleScroll = () => {
+      // Immediately reset scroll position to prevent address bar
+      window.scrollTo(0, 0)
+    }
+
+    window.visualViewport.addEventListener('resize', handleResize)
+    window.visualViewport.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.visualViewport.removeEventListener('resize', handleResize)
+      window.visualViewport.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   // Load current user and other user
   useEffect(() => {
@@ -153,7 +179,7 @@ function Chat() {
   }
 
   return (
-    <div className="chat-page">
+    <div className="chat-page" ref={chatPageRef}>
       <ChatHeader
         user={otherUser}
         onBack={() => navigate('/messages')}
