@@ -672,8 +672,8 @@ function Messages() {
       refreshData()
 
       // Load the initial message from the request as the first message in chat
-      const requestAccount = getAccountById(selectedRequest.fromUserId)
-      if (requestAccount) {
+      const reqAccount = otherAccounts.find(acc => acc.id === selectedRequest.fromUserId)
+      if (reqAccount) {
         const initialMessage = {
           id: `m_req_${selectedRequest.id}`,
           content: selectedRequest.message,
@@ -682,6 +682,15 @@ function Messages() {
           createdAt: selectedRequest.createdAt,
           isRead: true
         }
+
+        // Also save to localStorage so it appears in the full chat
+        const existingMessages = JSON.parse(localStorage.getItem('insta_messages') || '[]')
+        const messageExists = existingMessages.some(m => m.id === initialMessage.id)
+        if (!messageExists) {
+          existingMessages.push(initialMessage)
+          localStorage.setItem('insta_messages', JSON.stringify(existingMessages))
+        }
+
         setAcceptedChatMessages([initialMessage])
       }
     }
