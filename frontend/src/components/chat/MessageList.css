@@ -6,7 +6,6 @@
   padding-right: 10px; /* Match chat input right padding for alignment */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   min-height: 0;
   -webkit-overflow-scrolling: touch;
 }
