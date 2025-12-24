@@ -1551,6 +1551,35 @@
   object-fit: cover;
 }
 
+/* User names container - shows fullname and username like ChatHeader */
+.request-header-names {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.2;
+}
+
+.request-header-name-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.request-header-fullname {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.request-header-fullname + .verified-badge {
+  flex-shrink: 0;
+}
+
+.request-header-username-sub {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
 .request-header-username {
   display: flex;
   align-items: center;

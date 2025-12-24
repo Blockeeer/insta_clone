@@ -1317,10 +1317,15 @@ function Messages() {
                         <User size={16} />
                       )}
                     </div>
-                    <span className="request-header-username">
-                      {requestAccount.username}
-                      {requestAccount.isVerified && <VerifiedBadge />}
-                    </span>
+                    <div className="request-header-names">
+                      <div className="request-header-name-row">
+                        <span className="request-header-fullname">
+                          {requestAccount.fullName || requestAccount.username}
+                        </span>
+                        {requestAccount.isVerified && <VerifiedBadge />}
+                      </div>
+                      <span className="request-header-username-sub">{requestAccount.username}</span>
+                    </div>
                     <ChevronRight size={16} className="request-header-chevron" />
                   </div>
                 </div>
