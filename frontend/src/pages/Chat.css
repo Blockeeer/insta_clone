@@ -1,9 +1,8 @@
 .chat-page {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 100vh;
-  min-height: 100svh;
+  height: 100dvh; /* Dynamic viewport height - adjusts with address bar */
+  max-height: 100dvh;
   background-color: var(--background);
   overflow: hidden;
 }
@@ -65,8 +64,8 @@
 /* Mobile responsiveness for chat page */
 @media (max-width: 480px) {
   .chat-page {
-    height: 100%;
-    min-height: 100svh;
+    height: 100dvh;
+    max-height: 100dvh;
   }
 
   .chat-page .message-list {
