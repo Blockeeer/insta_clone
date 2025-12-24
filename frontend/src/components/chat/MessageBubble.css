@@ -48,20 +48,20 @@
 .message-bubble {
   max-width: 70%;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-xl);
+  border-radius: 20px; /* Rounded bubble shape */
   word-wrap: break-word;
 }
 
 .message-bubble.own {
   background: linear-gradient(135deg, #0095F6, #0077E6);
   color: white;
-  border-radius: var(--radius-xl); /* Uniform radius on all sides */
+  border-radius: 20px; /* Rounded bubble */
 }
 
 .message-bubble.other {
   background-color: var(--background-tertiary);
   color: var(--text-primary);
-  border-radius: var(--radius-xl); /* Uniform radius on all sides */
+  border-radius: 20px; /* Rounded bubble */
 }
 
 .message-content {
@@ -108,6 +108,7 @@
   .message-bubble {
     max-width: 80%;
     padding: 10px 14px; /* Bigger padding for larger bubbles */
+    border-radius: 22px; /* Slightly larger radius on mobile */
   }
 
   .message-content {
