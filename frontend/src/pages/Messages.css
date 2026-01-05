@@ -406,6 +406,132 @@
   border: 1px solid #ed4956;
 }
 
+/* Note User Selector Dropdown */
+.note-user-selector {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.note-user-selector-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.note-user-selector-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.note-user-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background-color: var(--background-tertiary);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.note-user-selector-btn:hover {
+  background-color: var(--background-hover, rgba(255, 255, 255, 0.1));
+}
+
+.note-user-selector-btn svg {
+  margin-left: auto;
+  color: var(--text-secondary);
+}
+
+.note-user-selector-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--background-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.note-user-selector-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.note-user-selector-name {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+}
+
+.note-user-selector-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--background-secondary);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+
+.note-user-selector-options.show {
+  display: block;
+}
+
+.note-user-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.note-user-option:hover {
+  background-color: var(--background-tertiary);
+}
+
+.note-user-option.selected {
+  background-color: rgba(0, 149, 246, 0.1);
+}
+
+.note-user-option svg {
+  margin-left: auto;
+  color: var(--primary);
+}
+
+.note-user-option-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--background-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.note-user-option-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* Note User Selection Modal */
 .note-selection-modal {
   background-color: var(--background-secondary);

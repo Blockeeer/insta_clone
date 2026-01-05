@@ -1104,12 +1104,92 @@ function Messages() {
         <div className="note-modal-overlay" onClick={handleCloseNoteEditModal}>
           <div className="note-modal" onClick={e => e.stopPropagation()}>
             <div className="note-modal-header">
-              <h3>{editingNoteAccount.id === currentUser?.id ? 'Your note' : `${editingNoteAccount.username}'s note`}</h3>
+              <h3>New note</h3>
               <button type="button" className="note-modal-close" onClick={handleCloseNoteEditModal}>
                 <X size={24} />
               </button>
             </div>
             <div className="note-modal-content">
+              {/* User selector dropdown */}
+              <div className="note-user-selector">
+                <label className="note-user-selector-label">Add note for:</label>
+                <div className="note-user-selector-dropdown">
+                  <button
+                    type="button"
+                    className="note-user-selector-btn"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      const dropdown = e.currentTarget.nextElementSibling
+                      dropdown.classList.toggle('show')
+                    }}
+                  >
+                    <div className="note-user-selector-avatar">
+                      {editingNoteAccount.avatar ? (
+                        <img src={editingNoteAccount.avatar} alt={editingNoteAccount.username} />
+                      ) : (
+                        <User size={20} />
+                      )}
+                    </div>
+                    <span className="note-user-selector-name">
+                      {editingNoteAccount.username}
+                      {editingNoteAccount.id === currentUser?.id && ' (You)'}
+                    </span>
+                    <ChevronDown size={16} />
+                  </button>
+                  <div className="note-user-selector-options">
+                    {/* Current user option */}
+                    {currentUser && (
+                      <button
+                        type="button"
+                        className={`note-user-option ${editingNoteAccount.id === currentUser.id ? 'selected' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setEditingNoteAccount(currentUser)
+                          const existingNote = getNoteForAccount(currentUser.id)
+                          setNoteText(existingNote?.noteText || '')
+                          e.currentTarget.parentElement.classList.remove('show')
+                        }}
+                      >
+                        <div className="note-user-option-avatar">
+                          {currentUser.avatar ? (
+                            <img src={currentUser.avatar} alt={currentUser.username} />
+                          ) : (
+                            <User size={20} />
+                          )}
+                        </div>
+                        <span>{currentUser.username} (You)</span>
+                        {editingNoteAccount.id === currentUser.id && <Check size={16} />}
+                      </button>
+                    )}
+                    {/* Other accounts */}
+                    {otherAccounts.map(account => (
+                      <button
+                        key={account.id}
+                        type="button"
+                        className={`note-user-option ${editingNoteAccount.id === account.id ? 'selected' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setEditingNoteAccount(account)
+                          const existingNote = getNoteForAccount(account.id)
+                          setNoteText(existingNote?.noteText || '')
+                          e.currentTarget.parentElement.classList.remove('show')
+                        }}
+                      >
+                        <div className="note-user-option-avatar">
+                          {account.avatar ? (
+                            <img src={account.avatar} alt={account.username} />
+                          ) : (
+                            <User size={20} />
+                          )}
+                        </div>
+                        <span>{account.username}</span>
+                        {editingNoteAccount.id === account.id && <Check size={16} />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               <div className="note-modal-avatar">
                 {editingNoteAccount.avatar ? (
                   <img src={editingNoteAccount.avatar} alt={editingNoteAccount.username} />

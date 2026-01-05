@@ -35,6 +35,14 @@ const SaveIcon = ({ filled }) => (
   </svg>
 )
 
+// Send/Direct message icon (paper airplane)
+const SendIcon = () => (
+  <svg aria-label="Send" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
+    <line fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2" x1="22" x2="9.218" y1="3" y2="10.083"/>
+    <polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" strokeLinejoin="round" strokeWidth="2"/>
+  </svg>
+)
+
 function Post({ post, onLike }) {
   const [showFullCaption, setShowFullCaption] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
@@ -97,32 +105,36 @@ function Post({ post, onLike }) {
         </div>
       </div>
 
-      {/* Post Actions */}
-      <div className="post-actions">
+      {/* Post Actions - Inline with counts like Twitter/X style */}
+      <div className="post-actions-inline">
         <div className="post-actions-left">
           <button
-            className={`action-btn ${isLiked ? 'liked' : ''}`}
+            className={`action-btn-inline ${isLiked ? 'liked' : ''}`}
             onClick={() => onLike(post.id)}
           >
             <LikeIcon filled={isLiked} />
+            <span className="action-count">{formatCount(likesCount)}</span>
           </button>
-          <button className="action-btn">
+          <button className="action-btn-inline">
             <CommentIcon />
+            <span className="action-count">{formatCount(commentsCount)}</span>
           </button>
-          <button className="action-btn">
+          <button className="action-btn-inline">
             <ShareIcon />
+            <span className="action-count">{formatCount(post.sharesCount || 0)}</span>
+          </button>
+          <button className="action-btn-inline">
+            <SendIcon />
+            <span className="action-count">{formatCount(post.sendsCount || 0)}</span>
           </button>
         </div>
-        <button className={`action-btn ${isSaved ? 'saved' : ''}`} onClick={() => setIsSaved(!isSaved)}>
+        <button className={`action-btn-inline save-btn ${isSaved ? 'saved' : ''}`} onClick={() => setIsSaved(!isSaved)}>
           <SaveIcon filled={isSaved} />
         </button>
       </div>
 
       {/* Post Info */}
       <div className="post-info">
-        <div className="post-likes">
-          {formatCount(likesCount)} likes
-        </div>
 
         {caption && (
           <div className="post-caption">

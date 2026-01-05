@@ -112,43 +112,72 @@
   background-color: var(--primary);
 }
 
-/* Post Actions */
-.post-actions {
+/* Post Actions - Inline with counts */
+.post-actions-inline {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px var(--spacing-md) 6px;
 }
 
-.post-actions-left {
+.post-actions-inline .post-actions-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 4px;
 }
 
-.action-btn {
+.action-btn-inline {
   color: var(--text-primary);
-  padding: 0;
+  padding: 8px 12px;
   transition: opacity 0.2s, transform 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-full);
 }
 
-.action-btn:hover {
-  opacity: 0.7;
+.action-btn-inline:hover {
+  background-color: var(--background-tertiary);
 }
 
-.action-btn:active {
-  transform: scale(0.9);
+.action-btn-inline:active {
+  transform: scale(0.95);
 }
 
-.action-btn.liked {
+.action-btn-inline .action-count {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.action-btn-inline.liked {
   color: var(--like);
 }
 
-.action-btn.liked svg {
+.action-btn-inline.liked .action-count {
+  color: var(--like);
+}
+
+.action-btn-inline.liked svg {
   animation: heartBeat 0.4s ease;
+}
+
+.action-btn-inline.save-btn {
+  padding: 8px;
+}
+
+.action-btn-inline.save-btn.saved {
+  color: #ffc107;
+}
+
+.action-btn-inline.save-btn.saved svg {
+  fill: #ffc107;
+}
+
+.action-btn-inline svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Send/Share icon in post actions */
