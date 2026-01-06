@@ -74,9 +74,52 @@
   color: var(--text-secondary);
 }
 
+.post-more-container {
+  position: relative;
+}
+
 .post-more-btn {
   color: var(--text-primary);
   padding: var(--spacing-xs);
+}
+
+.post-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.post-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.post-menu-item:hover {
+  background-color: var(--background-tertiary);
+}
+
+.post-menu-item.delete {
+  color: #ed4956;
+}
+
+.post-menu-item.delete:hover {
+  background-color: rgba(237, 73, 86, 0.1);
 }
 
 /* Post Image */
@@ -200,27 +243,33 @@
   margin-bottom: 6px;
 }
 
-.post-caption {
+.post-description {
   font-size: 14px;
   line-height: 1.4;
   margin-bottom: 4px;
 }
 
-.post-caption-username {
+.post-description-username {
   font-weight: 600;
   margin-right: 6px;
 }
 
-.post-caption-more {
-  color: var(--text-secondary);
-  font-size: 14px;
+.post-description-text {
+  color: var(--text-primary);
 }
 
-.post-comments-link {
-  display: block;
-  font-size: 14px;
+.post-description-more {
   color: var(--text-secondary);
-  margin-top: 4px;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.post-date {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  text-transform: capitalize;
 }
 
 @keyframes heartBeat {

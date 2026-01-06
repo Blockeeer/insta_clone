@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { MoreHorizontal, User } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { MoreHorizontal, User, Edit2, Trash2 } from 'lucide-react'
 import './Post.css'
 
 // Instagram Like icon (heart)
@@ -20,6 +20,16 @@ const CommentIcon = () => (
   </svg>
 )
 
+// Repost/Repeat icon (two curved arrows - compact)
+const RepostIcon = () => (
+  <svg aria-label="Repost" fill="none" height="24" role="img" viewBox="0 0 24 24" width="24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 1l4 4-4 4"/>
+    <path d="M14 5h-8a4 4 0 0 0-4 4v4"/>
+    <path d="M10 22l-4-4 4-4"/>
+    <path d="M7 18h7a4 4 0 0 0 4-4v-4"/>
+  </svg>
+)
+
 // Instagram Share icon
 const ShareIcon = () => (
   <svg aria-label="Share" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
@@ -35,16 +45,39 @@ const SaveIcon = ({ filled }) => (
   </svg>
 )
 
-function Post({ post, onLike }) {
+function Post({ post, onLike, onEdit, onDelete }) {
   const [showFullCaption, setShowFullCaption] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
+  const menuRef = useRef(null)
   const { user, imageUrl, caption, likesCount, commentsCount, isLiked, isSuggested } = post
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const formatCount = (count) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`
     return count.toLocaleString()
+  }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })
   }
 
   const truncatedCaption = caption && caption.length > 100 && !showFullCaption
@@ -83,9 +116,35 @@ function Post({ post, onLike }) {
             )}
           </div>
         </div>
-        <button className="post-more-btn">
-          <MoreHorizontal size={20} />
-        </button>
+        <div className="post-more-container" ref={menuRef}>
+          <button className="post-more-btn" onClick={() => setShowMenu(!showMenu)}>
+            <MoreHorizontal size={20} />
+          </button>
+          {showMenu && (
+            <div className="post-menu">
+              <button
+                className="post-menu-item"
+                onClick={() => {
+                  onEdit && onEdit(post)
+                  setShowMenu(false)
+                }}
+              >
+                <Edit2 size={16} />
+                <span>Edit</span>
+              </button>
+              <button
+                className="post-menu-item delete"
+                onClick={() => {
+                  onDelete && onDelete(post.id)
+                  setShowMenu(false)
+                }}
+              >
+                <Trash2 size={16} />
+                <span>Delete</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Post Image */}
@@ -112,6 +171,10 @@ function Post({ post, onLike }) {
             <span className="action-count">{formatCount(commentsCount)}</span>
           </button>
           <button className="action-btn-inline">
+            <RepostIcon />
+            <span className="action-count">{formatCount(post.repostsCount || 0)}</span>
+          </button>
+          <button className="action-btn-inline">
             <ShareIcon />
             <span className="action-count">{formatCount(post.sharesCount || 0)}</span>
           </button>
@@ -123,14 +186,13 @@ function Post({ post, onLike }) {
 
       {/* Post Info */}
       <div className="post-info">
-
         {caption && (
-          <div className="post-caption">
-            <span className="post-caption-username">{user.username}</span>
-            <span className="post-caption-text">{truncatedCaption}</span>
+          <div className="post-description">
+            <span className="post-description-username">{user.username}</span>
+            <span className="post-description-text">{truncatedCaption}</span>
             {caption.length > 100 && !showFullCaption && (
               <button
-                className="post-caption-more"
+                className="post-description-more"
                 onClick={() => setShowFullCaption(true)}
               >
                 more
@@ -139,10 +201,8 @@ function Post({ post, onLike }) {
           </div>
         )}
 
-        {commentsCount > 0 && (
-          <button className="post-comments-link">
-            View all {commentsCount} comments
-          </button>
+        {post.createdAt && (
+          <span className="post-date">{formatDate(post.createdAt)}</span>
         )}
       </div>
     </article>

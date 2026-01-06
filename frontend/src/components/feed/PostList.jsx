@@ -1,7 +1,7 @@
 import Post from './Post'
 import './PostList.css'
 
-function PostList({ posts, onLike }) {
+function PostList({ posts, onLike, onEdit, onDelete }) {
   if (posts.length === 0) {
     return (
       <div className="post-list-empty">
@@ -14,7 +14,7 @@ function PostList({ posts, onLike }) {
   return (
     <div className="post-list">
       {posts.map((post) => (
-        <Post key={post.id} post={post} onLike={onLike} />
+        <Post key={post.id} post={post} onLike={onLike} onEdit={onEdit} onDelete={onDelete} />
       ))}
     </div>
   )

@@ -80,6 +80,8 @@ const mockPosts = [
     caption: 'For $10 I\'ll come to your house and hot glue all your tv remotes together',
     likesCount: 93200,
     commentsCount: 261,
+    repostsCount: 1542,
+    sharesCount: 3200,
     isLiked: false,
     isSuggested: true,
     createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()
@@ -95,6 +97,8 @@ const mockPosts = [
     caption: 'Homemade pasta for dinner tonight. Nothing beats fresh ingredients!',
     likesCount: 892,
     commentsCount: 23,
+    repostsCount: 45,
+    sharesCount: 128,
     isLiked: true,
     isSuggested: true,
     createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString()
@@ -110,6 +114,8 @@ const mockPosts = [
     caption: 'Golden hour magic',
     likesCount: 2456,
     commentsCount: 89,
+    repostsCount: 234,
+    sharesCount: 567,
     isLiked: false,
     isSuggested: true,
     createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()
@@ -125,6 +131,8 @@ const mockPosts = [
     caption: 'Morning workout done! Starting the day right with some cardio and strength training. Remember, consistency is key!',
     likesCount: 567,
     commentsCount: 34,
+    repostsCount: 12,
+    sharesCount: 89,
     isLiked: false,
     isSuggested: true,
     createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString()
@@ -258,10 +266,33 @@ function Dashboard() {
     savePosts(updatedPosts)
   }
 
+  const handleEditPost = (post) => {
+    // For now, just prompt for new caption
+    const newCaption = window.prompt('Edit caption:', post.caption)
+    if (newCaption !== null) {
+      const updatedPosts = posts.map(p => {
+        if (p.id === post.id) {
+          return { ...p, caption: newCaption }
+        }
+        return p
+      })
+      setPosts(updatedPosts)
+      savePosts(updatedPosts)
+    }
+  }
+
+  const handleDeletePost = (postId) => {
+    if (window.confirm('Are you sure you want to delete this post?')) {
+      const updatedPosts = posts.filter(p => p.id !== postId)
+      setPosts(updatedPosts)
+      savePosts(updatedPosts)
+    }
+  }
+
   return (
     <div className="dashboard">
       <Stories stories={stories} onAddStoryClick={handleAddStoryClick} />
-      <PostList posts={posts} onLike={handleLike} />
+      <PostList posts={posts} onLike={handleLike} onEdit={handleEditPost} onDelete={handleDeletePost} />
 
       {showUserSelection && (
         <UserSelectionModal

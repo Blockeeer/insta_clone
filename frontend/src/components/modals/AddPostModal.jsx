@@ -5,8 +5,9 @@ import './AddPostModal.css'
 const initialFormData = {
   caption: '',
   likesCount: 0,
-  sharesCount: 0,
   commentsCount: 0,
+  repostsCount: 0,
+  sharesCount: 0,
   imageUrl: null
 }
 
@@ -125,8 +126,9 @@ function AddPostModal({ isOpen, onClose, onAddPost }) {
       imageUrl: formData.imageUrl || 'https://picsum.photos/seed/' + Date.now() + '/600/600',
       caption: formData.caption,
       likesCount: parseInt(formData.likesCount) || 0,
-      sharesCount: parseInt(formData.sharesCount) || 0,
       commentsCount: parseInt(formData.commentsCount) || 0,
+      repostsCount: parseInt(formData.repostsCount) || 0,
+      sharesCount: parseInt(formData.sharesCount) || 0,
       isLiked: false,
       isSuggested: false,
       createdAt: new Date().toISOString()
@@ -273,19 +275,6 @@ function AddPostModal({ isOpen, onClose, onAddPost }) {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="sharesCount">Shares</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                id="sharesCount"
-                name="sharesCount"
-                value={formData.sharesCount === 0 ? '' : formData.sharesCount}
-                onChange={handleNumberChange}
-                placeholder="0"
-              />
-            </div>
-            <div className="form-group">
               <label htmlFor="commentsCount">Comments</label>
               <input
                 type="text"
@@ -294,6 +283,32 @@ function AddPostModal({ isOpen, onClose, onAddPost }) {
                 id="commentsCount"
                 name="commentsCount"
                 value={formData.commentsCount === 0 ? '' : formData.commentsCount}
+                onChange={handleNumberChange}
+                placeholder="0"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="repostsCount">Reposts</label>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                id="repostsCount"
+                name="repostsCount"
+                value={formData.repostsCount === 0 ? '' : formData.repostsCount}
+                onChange={handleNumberChange}
+                placeholder="0"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="sharesCount">Shares</label>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                id="sharesCount"
+                name="sharesCount"
+                value={formData.sharesCount === 0 ? '' : formData.sharesCount}
                 onChange={handleNumberChange}
                 placeholder="0"
               />
